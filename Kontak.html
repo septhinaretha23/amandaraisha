@@ -1,0 +1,628 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bloom Order Corner</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #fff4e9;
+  color: #563629;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 25px;
+  background: white;
+  border-radius: 22px;
+  box-shadow: 0 8px 25px #70452a18;
+}
+
+.header {
+  text-align: center;
+  padding: 22px 12px;
+  background: linear-gradient(135deg, #f9d4df, #fff0e5);
+  border-radius: 18px;
+}
+
+.header h1 {
+  margin: 8px 0;
+  letter-spacing: 2px;
+}
+
+.header p {
+  font-size: 13px;
+  margin-bottom: 0;
+}
+
+.tag {
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+h3 {
+  margin-top: 25px;
+}
+
+label {
+  display: block;
+  margin: 12px 0 6px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ead5cb;
+  border-radius: 10px;
+  background: #fffaf6;
+  color: #563629;
+  font: inherit;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid #f2bdce;
+}
+
+.menu {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.item {
+  padding: 13px;
+  background: #fff0f4;
+  border: 2px solid #f5d3de;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.item:hover {
+  background: #ffe1eb;
+  transform: translateY(-2px);
+}
+
+.item:has(.pilih:checked) {
+  border-color: #ce7995;
+  background: #ffe5ed;
+}
+
+.item .pilih {
+  width: auto;
+  margin: 0 5px 0 0;
+  accent-color: #b85d7b;
+}
+
+.item b {
+  display: block;
+  margin: 9px 0;
+}
+
+.item .qty {
+  margin-top: 5px;
+  padding: 9px;
+}
+
+.total {
+  margin-top: 20px;
+  padding: 18px;
+  background: #fff0df;
+  border-radius: 14px;
+  text-align: center;
+}
+
+#harga {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.total p {
+  margin: 7px 0;
+}
+
+button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  filter: brightness(.97);
+}
+
+.submit {
+  color: white;
+  background: #634333;
+}
+
+.wa {
+  color: white;
+  background: #299957;
+}
+
+.email {
+  color: #563629;
+  background: #f9d4df;
+}
+
+#hasil {
+  display: none;
+  margin-top: 22px;
+  padding: 16px;
+  background: #fff7f9;
+  border: 1px dashed #d78da5;
+  border-radius: 14px;
+}
+
+#ringkasan {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.contact {
+  margin-top: 28px;
+  padding: 22px;
+  border-radius: 20px;
+  background: #fff0f4;
+  text-align: center;
+}
+
+.contact h2 {
+  font-size: 21px;
+}
+
+.contact > p {
+  font-size: 13px;
+  color: #977c6e;
+  line-height: 1.6;
+}
+
+.contact-link, .address {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 12px;
+  padding: 15px;
+  border-radius: 14px;
+  background: white;
+  text-align: left;
+  text-decoration: none;
+  color: #563629;
+  transition: .2s;
+}
+
+.contact-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px #56362915;
+}
+
+.symbol {
+  font-size: 25px;
+}
+
+.contact-link b, .contact-link small {
+  display: block;
+}
+
+.contact-link small {
+  margin-top: 5px;
+  color: #977c6e;
+}
+
+.address p {
+  margin: 5px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+footer {
+  text-align: center;
+  margin-top: 22px;
+  font-size: 12px;
+  color: #977c6e;
+}
+
+@media (max-width: 400px) {
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  .menu {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="tag">♡ SWEETNESS MADE WITH LOVE ♡</div>
+    <h1>BROWNIE BLOOM</h1>
+    <p>Choose your treats, create your happiness.</p>
+  </div>
+
+   <form id="form">
+
+    <h3>01. Your Information</h3>
+
+    <label for="nama">Nama pemesan</label>
+    <input id="nama" required placeholder="Nama kamu">
+
+    <label for="hp">Nomor WhatsApp kamu</label>
+    <input id="hp" type="tel" required
+      placeholder="">
+
+    <label for="alamat">Alamat pengiriman</label>
+    <textarea id="alamat" rows="3" required
+      placeholder="Masukkan alamat lengkap pengiriman"></textarea>
+
+    <h3>02. Choose Your Brownies</h3>
+    <p style="font-size:13px;color:#977c6e">
+      Centang menu pilihanmu dan tentukan jumlah box.
+    </p>
+
+    <div class="menu">
+
+      <div class="item">
+        <label>
+          <input class="pilih" type="checkbox"
+            value="Classic Chocolate" data-harga="47000">
+           Cookies And Cream Brownie
+        </label>
+        <b>Rp47.000 / box</b>
+        <label>Jumlah box</label>
+        <input class="qty" type="number"
+          min="0" max="100" value="0"
+          aria-label="Jumlah Classic Chocolate">
+      </div>
+
+      <div class="item">
+        <label>
+          <input class="pilih" type="checkbox"
+            value="Fudgy Brownies" data-harga="40000">
+           Matcha Brownie
+        </label>
+        <b>Rp40.000 / box</b>
+        <label>Jumlah box</label>
+        <input class="qty" type="number"
+          min="0" max="100" value="0"
+          aria-label="Jumlah Fudgy Brownies">
+      </div>
+
+      <div class="item">
+        <label>
+          <input class="pilih" type="checkbox"
+            value="Cheese Brownies" data-harga="42000">
+           Fudgy Brownie
+        </label>
+        <b>Rp42.000 / box</b>
+        <label>Jumlah box</label>
+        <input class="qty" type="number"
+          min="0" max="100" value="0"
+          aria-label="Jumlah Cheese Brownies">
+      </div>
+
+      <div class="item">
+        <label>
+          <input class="pilih" type="checkbox"
+            value="Brownies Kukus" data-harga="36000">
+           Original Brownie
+        </label>
+        <b>Rp36.000 / box</b>
+        <label>Jumlah box</label>
+        <input class="qty" type="number"
+          min="0" max="100" value="0"
+          aria-label="Jumlah Brownies Kukus">
+      </div>
+
+<div class="item">
+        <label>
+          <input class="pilih" type="checkbox"
+            value="Brownies Kukus" data-harga="40000">
+           Cheese Brownie
+        </label>
+        <b>Rp40.000 / box</b>
+        <label>Jumlah box</label>
+        <input class="qty" type="number"
+          min="0" max="100" value="0"
+          aria-label="Jumlah Brownies Kukus">
+      </div>
+
+<div class="item">
+        <label>
+          <input class="pilih" type="checkbox"
+            value="Brownies Kukus" data-harga="57000">
+           Caramel Brownie
+        </label>
+        <b>Rp57.000 / box</b>
+        <label>Jumlah box</label>
+        <input class="qty" type="number"
+          min="0" max="100" value="0"
+          aria-label="Jumlah Brownies Kukus">
+      </div>
+
+
+    </div>
+
+    <label for="pengiriman">Metode pengiriman</label>
+    <select id="pengiriman">
+      <option>Delivery</option>
+      <option>Pick up</option>
+    </select>
+
+    <label for="tanggal">Tanggal pesanan</label>
+    <input type="date" id="tanggal" required>
+
+    <label for="pesan">Request</label>
+    <textarea id="pesan" rows="3"
+      placeholder="Ucapan atau permintaan khusus"></textarea>
+
+    <div class="total">
+      <p>YOUR TOTAL ORDER</p>
+      <div id="harga">Rp0</div>
+      <small>Freshly made, specially for you ♡</small>
+    </div>
+
+    <button class="submit" type="submit">
+      Buat Pesanan ♡
+    </button>
+
+  </form>
+
+  <section id="hasil">
+    <h3>YOUR ORDER SUMMARY ♡</h3>
+    <p id="kode"></p>
+    <div id="ringkasan"></div>
+
+    <button class="wa" type="button" onclick="kirimWA()">
+      💬 Kirim lewat WhatsApp
+    </button>
+
+    <button class="email" type="button" onclick="kirimEmail()">
+      ✉ Kirim lewat Email
+    </button>
+  </section>
+
+  <section class="contact">
+    <h2>Let's Stay Connected ♡</h2>
+    <p>
+      Have a question or want to order?
+      Contact us here!
+    </p>
+
+    <a class="contact-link"
+      href="https://wa.me/628987855253"
+      target="_blank" rel="noopener noreferrer">
+      <span class="symbol">💬</span>
+      <div>
+        <b>WhatsApp</b>
+        <small>Chat with us directly</small>
+      </div>
+    </a>
+
+    <a class="contact-link"
+      href="mailto:amandaraishap123@gmail.com">
+      <span class="symbol">✉️</span>
+      <div>
+        <b>Email</b>
+        <small>Send us a message</small>
+      </div>
+    </a>
+
+    <div class="address">
+      <span class="symbol">📍</span>
+      <div>
+        <b>Our Store</b>
+        <p>Isi alamat toko kamu di sini</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    BROWNIE BLOOM © 2026
+    <br>
+    A little box of happiness ♡
+  </footer>
+
+</div>
+
+<script>
+
+// GANTI DENGAN KONTAK TOKO KAMU
+const NOMOR_TOKO = "628987855253";
+const EMAIL_TOKO = "amandaraishap123@gmail.com";
+
+const form = document.getElementById("form");
+const harga = document.getElementById("harga");
+
+let isiPesanan = "";
+let kodePesanan = "";
+
+function rupiah(n) {
+  return "Rp" + n.toLocaleString("id-ID");
+}
+
+function ambilProduk() {
+  const daftar = [];
+
+  document.querySelectorAll(".item").forEach(item => {
+    const cek = item.querySelector(".pilih");
+    const qtyInput = item.querySelector(".qty");
+    const jumlah = Number(qtyInput.value);
+
+    if (cek.checked && jumlah > 0) {
+      daftar.push({
+        nama: cek.value,
+        harga: Number(cek.dataset.harga),
+        jumlah: jumlah
+      });
+    }
+  });
+
+  return daftar;
+}
+
+function hitung() {
+  const daftar = ambilProduk();
+
+  const total = daftar.reduce(
+    (sum, p) => sum + p.harga * p.jumlah,
+    0
+  );
+
+  harga.textContent = rupiah(total);
+}
+
+document.querySelectorAll(".item").forEach(item => {
+  const cek = item.querySelector(".pilih");
+  const qty = item.querySelector(".qty");
+
+  cek.addEventListener("change", () => {
+    if (cek.checked && Number(qty.value) === 0) {
+      qty.value = 1;
+    }
+
+    if (!cek.checked) {
+      qty.value = 0;
+    }
+
+    hitung();
+  });
+
+  qty.addEventListener("input", () => {
+    if (Number(qty.value) > 0) {
+      cek.checked = true;
+    } else {
+      cek.checked = false;
+    }
+
+    hitung();
+  });
+});
+
+function buatKode() {
+  return "BB-" + Date.now().toString(36).toUpperCase();
+}
+
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const daftar = ambilProduk();
+
+  if (daftar.length === 0) {
+    alert("Pilih minimal satu menu brownies!");
+    return;
+  }
+
+  const jumlahTidakValid = [...document.querySelectorAll(".item")]
+    .some(item => {
+      const cek = item.querySelector(".pilih");
+      const qty = item.querySelector(".qty");
+      const n = Number(qty.value);
+
+      return !Number.isInteger(n) || n < 0 || n > 100 ||
+        (cek.checked && n < 1);
+    });
+
+  if (jumlahTidakValid) {
+    alert("Periksa jumlah setiap menu. Pilih minimal 1 dan maksimal 100 box.");
+    return;
+  }
+
+  kodePesanan = buatKode();
+
+  const total = daftar.reduce(
+    (sum, p) => sum + p.harga * p.jumlah,
+    0
+  );
+
+  const daftarMenu = daftar.map(p =>
+    `${p.nama}: ${p.jumlah} box x ${rupiah(p.harga)} = ${rupiah(p.jumlah * p.harga)}`
+  ).join("\n");
+
+  isiPesanan =
+`🌷 BROWNIE BLOOM ORDER 🌷
+Kode pesanan: ${kodePesanan}
+
+Nama: ${document.getElementById("nama").value}
+WhatsApp: ${document.getElementById("hp").value}
+Alamat: ${document.getElementById("alamat").value}
+
+DAFTAR PESANAN:
+${daftarMenu}
+
+Metode pengiriman: ${document.getElementById("pengiriman").value}
+Tanggal pesanan: ${document.getElementById("tanggal").value}
+TOTAL: ${rupiah(total)}
+
+Pesan khusus: ${document.getElementById("pesan").value || "-"}
+
+Mohon konfirmasi pesanan. Terima kasih ♡`;
+
+  document.getElementById("kode").textContent =
+    "Order Code: " + kodePesanan;
+
+  document.getElementById("ringkasan").textContent =
+    isiPesanan;
+
+  document.getElementById("hasil").style.display = "block";
+
+  document.getElementById("hasil").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+});
+
+function kirimWA() {
+  if (!isiPesanan) return;
+
+  window.open(
+    "https://wa.me/" + NOMOR_TOKO +
+    "?text=" + encodeURIComponent(isiPesanan),
+    "_blank",
+    "noopener,noreferrer"
+  );
+}
+
+function kirimEmail() {
+  if (!isiPesanan) return;
+
+  window.location.href =
+    "mailto:" + EMAIL_TOKO +
+    "?subject=" +
+    encodeURIComponent("Pesanan Brownie Bloom " + kodePesanan) +
+    "&body=" + encodeURIComponent(isiPesanan);
+}
+
+</script>
+</body>
+</html>
